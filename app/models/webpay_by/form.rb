@@ -1,11 +1,32 @@
+# frozen_string_literal: true
+#
+# Модель для формирования формы оплаты. Перед созданием заказа обязательно создайте заказ(Wepbay::Request).
+# Для оплаты заказа необходимо сформировать форму со специальными полями, и POST методом перенаправить покупателя на страницу оплаты.
+# Для тестирования необходимо указать адрес https://securesandbox.webpay.by, для совершения реальных платежей − https://payment.webpay.by.
+#
+# Все необходимые поля уже настроены в объекте заказа. Дополнительно можно настроить следующие поля:
+#   language_id - идентификатор языка формы оплаты. По умолчанию russian.
+#
+# Пример:
+#
+# request = webpay_client.request(
+#   order_id:   'item-1',
+#   seed:       '12.12.2019',
+#   back_url:   product_url,
+#   notify_url: payments_epay_url,
+#   items:      [{price: 100, name: 'Пополнение счёта', quantity: 1}]
+# )
+#
+# form = request.form(language_id: 'english')
+#
 module WebpayBy
   class Form
-    SANDBOX_URL     = 'https://securesandbox.webpay.by'.freeze
-    LIVE_URL        = 'https://payment.webpay.by'.freeze
+    SANDBOX_URL     = 'https://securesandbox.webpay.by'
+    LIVE_URL        = 'https://payment.webpay.by'
     APP_VERSION     = 2
-    LANGUAGE_LIST   = %w( russian english ).freeze
-    REQUEST_METHOD  = 'post'.freeze
-    ENCTYPE         = 'application/x-www-form-urlencoded'.freeze
+    LANGUAGE_LIST   = %w( russian english )
+    REQUEST_METHOD  = 'post'
+    ENCTYPE         = 'application/x-www-form-urlencoded'
 
     attr_reader :request, :version, :language_id, :request_method, :enctype
 
@@ -20,7 +41,7 @@ module WebpayBy
     end
 
     def action_url
-      @request.client.debug_mode ? SANDBOX_URL : LIVE_URL
+      @request.client.debug_mode? ? SANDBOX_URL : LIVE_URL
     end
 
     def fields
@@ -34,13 +55,10 @@ module WebpayBy
         wsb_currency_id:  @request.currency_id,
         wsb_seed:         @request.seed,
         wsb_total:        @request.total,
-        wsb_signature:    @request.signature
+        wsb_signature:    @request.signature,
+        wsb_return_url:   @request.back_url,
+        wsb_notify_url:   @request.notify_url
       }
-
-      unless @request.client.debug_mode
-        fields_with_values[:wsb_return_url] = @request.back_url
-        fields_with_values[:wsb_notify_url] = @request.notify_url
-      end
 
       @request.items.each_with_index do |item, i|
         fields_with_values.merge!(
