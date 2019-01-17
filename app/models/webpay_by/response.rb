@@ -49,6 +49,8 @@ module WebpayBy
       valid_signature? && @payment_type.in?(SUCCESSFUL_TYPE_INDEXES)
     end
 
+    # wsb_signature представляет собой hex-последовательность и является результатом выполнения функции MD 5.
+    # В качестве аргумента функции MD5  служит текстовая последовательность, полученная путем простой конкатенации
     def valid_signature?
       @wsb_signature.to_s == signature
     end

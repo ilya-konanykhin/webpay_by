@@ -17,7 +17,6 @@
 require 'uri'
 require 'net/https'
 require 'openssl'
-require 'builder'
 
 module WebpayBy
   class Confirmation

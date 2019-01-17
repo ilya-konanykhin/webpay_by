@@ -44,13 +44,13 @@ webpay_client = WebpayBy::Client.new(
   password:   'your_password'
 )
 
-Rails.application.config.webpay_by.client = webpay_client
+Rails.application.config.webpay_by = webpay_client
 ```
 
 Формируем заказ и создаем форму
 
 ```ruby
-request = Rails.application.config.webpay_by.client.request(
+request = Rails.application.config.webpay_by.request(
   order_id:   'item-1',
   seed:       '12.12.2019',
   back_url:   product_url,
@@ -100,7 +100,7 @@ render nothing: true, status: 200
 оплаченные заявки и их подтверджать. 
 
 ```ruby
-webpay_client         = Rails.application.config.webpay_by.client
+webpay_client         = Rails.application.config.webpay_by
 confirmation          = webpay_client.confirmation(transaction_id: transaction_id)
 confirmation_response = confirmation.send
 

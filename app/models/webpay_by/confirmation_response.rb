@@ -12,6 +12,7 @@
 # Проверяем ответ от системы на подлинность электронной подписи и подтверждения об оплате
 #
 require 'digest'
+require 'active_support/core_ext/hash'
 
 module WebpayBy
   class ConfirmationResponse

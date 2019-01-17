@@ -15,8 +15,12 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,config,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
   s.test_files = Dir['spec/**/*']
+  s.require_paths = ['lib']
 
   s.required_ruby_version = '>= 2.3'
 
   s.add_dependency 'activesupport', '>= 4.1.0'
+  s.add_dependency 'builder', '>= 2.0'
+
+  s.add_development_dependency 'rspec'
 end

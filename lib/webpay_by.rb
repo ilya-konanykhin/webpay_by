@@ -1,4 +1,4 @@
-require 'webpay_by/engine'
+require 'webpay_by/version'
 
 module WebpayBy
 end
