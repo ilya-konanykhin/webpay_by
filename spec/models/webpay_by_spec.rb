@@ -1,6 +1,5 @@
 require 'spec_helper'
-
-Dir['./app/models/webpay_by/*.rb'].each { |f| require f }
+require './lib/webpay_by'
 
 describe WebpayBy::Client do
   let(:webpay_client) do
