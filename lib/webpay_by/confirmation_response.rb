@@ -5,7 +5,7 @@
 # Пример:
 #
 #   # создаем объект и передаем ему номер транзакции
-#   transaction_id = 'item-1'
+#   transaction_id = 'xxxx' # получили в WebpayBy::Response#transaction_id
 #   confirmation = webpay_client.confirmation transaction_id: transaction_id
 #
 #   # отправляем пост-запрос к банку

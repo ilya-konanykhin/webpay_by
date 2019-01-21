@@ -2,17 +2,17 @@
 #
 # Чтобы создать клиент, вам нужно настроить следующие поля:
 #   billing_id - уникальный идентификатор магазина
-#   secret_key - секретный ключ, необходим для формирования электронной  подписи каждого Вашего платежа
-#   debug_mode - поле, указывающее на проведение тестовой оплаты. Для работы с тестовой средой укажите true
+#   secret_key - секретный ключ, необходим для формирования электронной подписи
+#   debug_mode - поле, указывающее на проведение тестовой оплаты; для работы с тестовой средой укажите true
 #   login      - имя пользователя (для подтверждения платежа)
 #   password   - пароль (для подтверждения платежа)
 #
 # Пример:
 #
 #   webpay_client = WebpayBy::Client.new(
-#   secret_key: 'your_secret_key',
+#     secret_key: 'your_secret_key',
 #     billing_id: '000000001',
-#     debug_mode: ENV.development?,
+#     debug_mode: Rails.env.development?,
 #     login:      'your_login',
 #     password:   'your_password'
 #   )
@@ -38,7 +38,7 @@ module WebpayBy
       WebpayBy::Request.new options.merge client: self
     end
 
-    # Вернет объект "ответа от сервера" WebpayBy::Response для валиадции ответа WebPay
+    # Вернет объект "ответа от сервера" WebpayBy::Response для валидации ответа WebPay на notify_url (wsb_notify_url)
     def response(options = {})
       WebpayBy::Response.new options.merge client: self
     end

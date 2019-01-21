@@ -2,7 +2,7 @@
 #
 # Модель для формирования формы оплаты. Перед созданием, обязательно создайте запрос WebpayBy::Request.
 #
-# Для оплаты запроса необходимо сформировать форму со специальными полями, и POST-методом перенаправить покупателя
+# Для проведения оплаты необходимо сформировать форму со специальными полями, и POST-методом перенаправить покупателя
 # на страницу оплаты WebPay. Для тестирования необходимо указать адрес https://securesandbox.webpay.by, для совершения
 # реальных платежей − https://payment.webpay.by.
 #
@@ -11,14 +11,19 @@
 #
 # Пример:
 #
+#   # заказ в нашей системе
+#   order = ... # Order.new ...
+#
+#   # запрос к WebPay; нигде не сохраняется, объект нужен только для создания формы
 #   request = webpay_client.request(
-#     order_id:   'item-1',
+#     order_id:   order.id,
 #     seed:       Time.now,
 #     back_url:   webpay_back_url,
 #     notify_url: webpay_notify_url,
-#     items:      [{price: 100, name: 'Пополнение счёта', quantity: 1}]
+#     items:      [{price: order.price, name: 'Пополнение счёта', quantity: 1}]
 #   )
 #
+#   # форма, содержащая данные запроса
 #   @form = request.form language_id: 'english'
 #
 #   # во вьюхе SLIM
