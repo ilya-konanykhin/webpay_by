@@ -108,7 +108,7 @@ answer_hash = params.except(:controller, :action).to_unsafe_h.symbolize_keys
 response    = webpay_client.response answer_hash
 
 if response.approved?
-  order = Order.find response.order_id
+  order = Order.find response.site_order_id
   raise '...' if !order || response.amount != order.amount
   do_money_stuff order
 end 

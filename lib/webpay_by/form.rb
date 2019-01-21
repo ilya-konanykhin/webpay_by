@@ -48,10 +48,12 @@ module WebpayBy
       raise "Unsupported language, must be one of #{LANGUAGE_LIST.join ', '}" unless LANGUAGE_LIST.include? @language_id
     end
 
+    # Значение поля action формы
     def action_url
       @request.client.debug_mode? ? SANDBOX_URL : LIVE_URL
     end
 
+    # Все hidden-поля формы
     def fields
       fields_with_values = {
         '*scart':         '',

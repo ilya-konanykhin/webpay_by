@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 #
-# Модель для подтверждении оплаты системе Webpay.
+# Модель ответа сервера при подтверждении оплаты в системе WebPay. Возвращается при вызове WebpayBy::Confirmation#send.
+#
 # Пример:
 #
-# Создаем объект и передаем ему номер транзакции
-# confirmation = webpay_client.confirmation(transaction_id: 'item-1')
+#   # создаем объект и передаем ему номер транзакции
+#   transaction_id = 'item-1'
+#   confirmation = webpay_client.confirmation transaction_id: transaction_id
 #
-# Создаем пост запрос к банку
-# confirmation_response = confirmation.send
+#   # отправляем пост-запрос к банку
+#   response = confirmation.send
 #
-# Проверяем ответ от системы на подлинность электронной подписи и подтверждения об оплате
+#   # метод send возвращает объект WebpayBy::ConfirmationResponse, который содержит методы для проверки электронной подписи
+#   logger.log "оплата транзакции #{transaction_id} подтверждена" if response.approved?
 #
 require 'digest'
 require 'active_support/core_ext/hash'
@@ -63,6 +66,7 @@ module WebpayBy
       Digest::MD5.hexdigest signed_attrs.join
     end
 
+    # Верна ли подпись и тип ответа?
     def approved?
       payment_type_index = response_fields[:payment_type]
       valid_signature? && payment_type_index.in?(SUCCESSFUL_TYPE_INDEXES)
