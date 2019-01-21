@@ -12,7 +12,7 @@ describe WebpayBy::Client do
     )
   end
 
-  describe 'Формирования заказа' do
+  describe 'Формирования запроса' do
     it 'сгенерирует правильную электронную подпись' do
       request = webpay_client.request(
           order_id:   'item-1',
