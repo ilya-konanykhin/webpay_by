@@ -1,23 +1,31 @@
 # frozen_string_literal: true
 #
-# Модель для формирования формы оплаты. Перед созданием заказа обязательно создайте заказ(Wepbay::Request).
-# Для оплаты заказа необходимо сформировать форму со специальными полями, и POST методом перенаправить покупателя на страницу оплаты.
-# Для тестирования необходимо указать адрес https://securesandbox.webpay.by, для совершения реальных платежей − https://payment.webpay.by.
+# Модель для формирования формы оплаты. Перед созданием, обязательно создайте заказ Wepbay::Request.
+#
+# Для оплаты заказа необходимо сформировать форму со специальными полями, и POST-методом перенаправить покупателя
+# на страницу оплаты WebPay. Для тестирования необходимо указать адрес https://securesandbox.webpay.by, для совершения
+# реальных платежей − https://payment.webpay.by.
 #
 # Все необходимые поля уже настроены в объекте заказа. Дополнительно можно настроить следующие поля:
-#   language_id - идентификатор языка формы оплаты. По умолчанию russian.
+#   language_id - идентификатор языка формы оплаты; по-умолчанию russian
 #
 # Пример:
 #
-# request = webpay_client.request(
-#   order_id:   'item-1',
-#   seed:       '12.12.2019',
-#   back_url:   product_url,
-#   notify_url: payments_epay_url,
-#   items:      [{price: 100, name: 'Пополнение счёта', quantity: 1}]
-# )
+#   request = webpay_client.request(
+#     order_id:   'item-1',
+#     seed:       Time.now,
+#     back_url:   product_url,
+#     notify_url: webpay_notify_url,
+#     items:      [{price: 100, name: 'Пополнение счёта', quantity: 1}]
+#   )
 #
-# form = request.form(language_id: 'english')
+#   @form = request.form language_id: 'english'
+#
+#   # во вьюхе SLIM
+#   = form_tag @form.action_url, method: @form.request_method, enctype: @form.enctype do
+#     - @form.fields.each do |key, value|
+#       = hidden_field_tag key, value
+#     = submit_tag 'Перейти к пополнению'
 #
 module WebpayBy
   class Form
